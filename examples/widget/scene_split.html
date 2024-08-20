@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>eddsdk</title>
+    <script src='/eddsdk/edd.js'></script>
+    <script src="../dat.gui.min.js"></script>
+    <link href='/eddsdk/edd.css' type='text/css' rel='stylesheet'>
+    <link href='../index.css' type='text/css' rel='stylesheet'>
+</head>
+
+<body>
+
+    <div id="viewer-container" class="viewer-container"></div>
+
+    <script>
+        let viewer = undefined
+
+        function changeEnable (checked) {
+            viewer.mapSplit.enable = Boolean(checked)
+        }
+
+        function initViewer () {
+            viewer = new edd.Viewer('viewer-container')
+            let baseLayer = edd.ImageryLayerFactory.createImageryLayer(edd.ImageryType.AMAP,
+                {
+                    style: 'img',
+                    crs: 'WGS84'
+                }
+            )
+            viewer.addBaseLayer(baseLayer)
+
+            let layer = new edd.TilesetLayer('layer').addTo(viewer)
+            let tileset = new edd.Tileset(
+                '//resource.dvgis.cn/data/3dtiles/dayanta/tileset.json'
+            )
+            tileset.setHeight(-420)
+            tileset.setSplitDirection(-1)
+            layer.addOverlay(tileset)
+            viewer.sceneSplit.enable = true
+
+
+            // viewer.sceneSplit.addBaseLayer(edd.ImageryLayerFactory.createTdtImageryLayer({
+            //   key
+            // }))
+            //
+            // let tileset_right = new edd.Tileset(
+            //   '//resource.dvgis.cn/data/3dtiles/dayanta/tileset.json'
+            // )
+            // tileset_right.setStyle(new edd.TilesetStyle({
+            //     color : {
+            //       conditions : [
+            //         ['true', 'rgba(255,255,0,0.8)']
+            //       ]
+            //     },
+            //   })
+            // )
+            // tileset_right.setHeight(-420)
+            // tileset_right.setSplitDirection(1)
+            // viewer.sceneSplit.addTileset(tileset_right)
+            addGuiController() // add controller
+            viewer.flyTo(tileset)
+        }
+
+        function addGuiController () {
+            let controls = {
+                enable: true,
+            }
+            let gui = new dat.GUI();
+            gui.add(controls, 'enable',).onChange(value => {
+                viewer.sceneSplit.enable = value
+            })
+        }
+
+        edd.ready({
+            baseUrl: '../eddsdk/resources/'
+        }).then(initViewer)
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>eddsdk</title>
+    <script src='/eddsdk/edd.js'></script>
+    <link href='/eddsdk/edd.css' type='text/css' rel='stylesheet'>
+    <link href='../index.css' type='text/css' rel='stylesheet'>
+</head>
+
+<body>
+    <div id="viewer-container" class="viewer-container"></div>
+
+    <script>
+        let viewer = undefined
+        function initViewer () {
+            viewer = new edd.Viewer('viewer-container')
+            let baseLayer = edd.ImageryLayerFactory.createImageryLayer(edd.ImageryType.ARCGIS, {
+                url:
+                    'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer'
+            })
+            viewer.addBaseLayer(baseLayer, {
+                iconUrl: '../assets/icon/img.png',
+                name: '影像'
+            })
+
+            let baselayer_shaded = edd.ImageryLayerFactory.createImageryLayer(edd.ImageryType.ARCGIS, {
+                url:
+                    'https://services.arcgisonline.com/arcgis/rest/services/World_Shaded_Relief/MapServer'
+            })
+            viewer.addBaseLayer(baselayer_shaded, {
+                iconUrl: '../assets/icon/elec.png',
+                name: '电子'
+            })
+
+            let baselayer_street = edd.ImageryLayerFactory.createImageryLayer(edd.ImageryType.ARCGIS, {
+                url:
+                    'https://services.arcgisonline.com/arcgis/rest/services/World_Physical_Map/MapServer'
+            })
+            viewer.addBaseLayer(baselayer_street, {
+                iconUrl: '../assets/icon/ter.png',
+                name: '地形'
+            })
+
+            let baselayer_ter = edd.ImageryLayerFactory.createImageryLayer(edd.ImageryType.ARCGIS, {
+                url:
+                    'https://services.arcgisonline.com/arcgis/rest/services/World_Terrain_Base/MapServer'
+            })
+            viewer.addBaseLayer(baselayer_ter, {
+                iconUrl: '../assets/icon/ter.png',
+                name: '地形'
+            })
+
+            viewer.zoomToPosition(
+                new edd.Position(105.565571, 31.984708, 15362816, 0, -90)
+            )
+        }
+        edd.ready({
+            baseUrl: '../eddsdk/resources/'
+        }).then(initViewer)
+    </script>
+</body>
+
+</html>

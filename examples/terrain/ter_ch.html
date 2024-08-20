@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>eddsdk</title>
+    <script src='/eddsdk/edd.js'></script>
+    <link href='/eddsdk/edd.css' type='text/css' rel='stylesheet'>
+    <link href='../index.css' type='text/css' rel='stylesheet'>
+</head>
+
+<body>
+
+    <div id="viewer-container" class="viewer-container"></div>
+    <script>
+        let viewer = undefined
+
+        function initViewer () {
+            viewer = new edd.Viewer('viewer-container')
+            let terrain = edd.TerrainFactory.createTerrain(edd.TerrainType.XYZ, {
+                url: 'http://data.marsgis.cn/terrain'
+            })
+            viewer.setTerrain(terrain)
+            let baseLayer = edd.ImageryLayerFactory.createImageryLayer(edd.ImageryType.AMAP, {
+                style: 'img',
+                crs: 'WGS84'
+            })
+            viewer.addBaseLayer(baseLayer)
+            viewer.flyToPosition(
+                new edd.Position(
+                    96.70456483909693,
+                    28.883444927447762,
+                    48977.26981733466,
+                    0,
+                    -31
+                )
+            )
+        }
+
+
+        edd.ready({
+            baseUrl: '../eddsdk/resources/'
+        }).then(initViewer)
+    </script>
+</body>
+
+</html>

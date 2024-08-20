@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>eddsdk</title>
+    <script src='/eddsdk/edd.js'></script>
+    <link href='/eddsdk/edd.css' type='text/css' rel='stylesheet'>
+    <link href='../index.css' type='text/css' rel='stylesheet'>
+    <style>
+        .viewer-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="viewer-container" class="viewer-container"></div>
+    <script>
+        let viewer = undefined
+        function initViewer () {
+            viewer = new edd.Viewer('viewer-container')
+        }
+        edd.ready({
+            baseUrl: '../eddsdk/resources/'
+        }).then(initViewer)
+    </script>
+</body>
+
+</html>

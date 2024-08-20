@@ -1,0 +1,74 @@
+<!--
+ * @Author: liyu 549277739@qq.com
+ * @Date: 2024-08-15 10:41:12
+ * @LastEditTime: 2024-08-20 17:33:27
+ * @Description: 
+ * Copyright (c) 2024 by EEDSDK, All Rights Reserved. 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>eddsdk</title>
+  <script src='/eddsdk/edd.js'></script>
+  <link href='/eddsdk/edd.css' type='text/css' rel='stylesheet'>
+  <link href='../index.css' type='text/css' rel='stylesheet'>
+</head>
+
+<body>
+  <div id="viewer-container" class="viewer-container"></div>
+  <script>
+    let viewer = undefined
+    function initViewer () {
+      viewer = new edd.Viewer('viewer-container')
+
+
+      let baselayer_img = edd.ImageryLayerFactory.createImageryLayer(edd.ImageryType.BAIDU, {
+        style: 'img',
+        crs: 'WGS84'
+      })
+
+      viewer.addBaseLayer([baselayer_img], {
+        iconUrl: '../assets/icon/img.png',
+        name: '影像'
+      })
+
+
+      let baselayer_vec = edd.ImageryLayerFactory.createImageryLayer(edd.ImageryType.BAIDU, {
+        style: 'vec',
+        crs: 'WGS84'
+      })
+
+      viewer.addBaseLayer([baselayer_img, baselayer_vec], {
+        iconUrl: '../assets/icon/img.png',
+        name: '影像+注记'
+      })
+
+      let baseLayer = edd.ImageryLayerFactory.createImageryLayer(edd.ImageryType.BAIDU, {
+        crs: 'WGS84'
+      })
+
+      viewer.addBaseLayer(baseLayer, {
+        iconUrl: '../assets/icon/elec.png',
+        name: '电子'
+      })
+
+      let baselayer_traffic = edd.ImageryLayerFactory.createBaiduImageryLayer({
+        crs: 'WGS84',
+        style: 'traffic'
+      })
+      viewer.addBaseLayer([baseLayer, baselayer_traffic], {
+        iconUrl: '../assets/icon/elec.png',
+        name: '电子+路况'
+      })
+
+    }
+    edd.ready({
+      baseUrl: '../eddsdk/resources/'
+    }).then(initViewer)
+  </script>
+</body>
+
+</html>

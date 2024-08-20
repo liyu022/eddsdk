@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>eddsdk</title>
+    <script src='/eddsdk/edd.js'></script>
+    <link href='/eddsdk/edd.css' type='text/css' rel='stylesheet'>
+    <link href='../index.css' type='text/css' rel='stylesheet'>
+</head>
+
+<body>
+
+    <div id="viewer-container" class="viewer-container"></div>
+    <script>
+        let viewer = undefined
+
+        function initViewer () {
+            viewer = new edd.Viewer('viewer-container')
+            let baseLayer = edd.ImageryLayerFactory.createImageryLayer(edd.ImageryType.AMAP, {
+                style: 'img',
+                crs: 'WGS84'
+            })
+            viewer.addBaseLayer(baseLayer)
+            let layer = new edd.VectorLayer('layer')
+            viewer.addLayer(layer)
+
+            let redPlane = new edd.Plane('-107.0,43.0,100', 100, 100, { normal: 'x' })
+            redPlane.setStyle({
+                material: edd.Color.RED
+            })
+            let greenPlane = new edd.Plane('-107.0,43.0,100', 100, 100, { normal: 'y' })
+            greenPlane.setStyle({
+                material: edd.Color.GREEN
+            })
+            let bluePlane = new edd.Plane('-107.0,43.0,100', 100, 100, { normal: 'z' })
+            bluePlane.setStyle({
+                material: edd.Color.BLUE
+            })
+            layer.addOverlay(redPlane).addOverlay(greenPlane).addOverlay(bluePlane)
+            viewer.flyTo(layer)
+        }
+        edd.ready({
+            baseUrl: '../eddsdk/resources/'
+        }).then(initViewer)
+    </script>
+</body>
+
+</html>

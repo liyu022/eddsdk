@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>eddsdk</title>
+    <script src='/eddsdk/edd.js'></script>
+    <link href='/eddsdk/edd.css' type='text/css' rel='stylesheet'>
+    <link href='../index.css' type='text/css' rel='stylesheet'>
+</head>
+
+<body>
+    <div id="viewer-container" class="viewer-container"></div>
+    <script>
+        let viewer = undefined
+        function initViewer () {
+            viewer = new edd.Viewer('viewer-container')
+            let baseLayer_img = edd.ImageryLayerFactory.createImageryLayer(edd.ImageryType.AMAP, {
+                style: 'img'
+            })
+
+
+            viewer.on(edd.SceneEventType.PRE_UPDATE, e => {
+
+            })
+
+            viewer.on(edd.SceneEventType.POST_UPDATE, e => {
+
+            })
+
+            viewer.on(edd.SceneEventType.PRE_RENDER, e => {
+
+            })
+
+            viewer.on(edd.SceneEventType.POST_RENDER, e => {
+
+            })
+
+
+            viewer.on(edd.SceneEventType.RENDER_ERROR, e => {
+
+            })
+
+            viewer.addBaseLayer(baseLayer_img)
+
+        }
+        edd.ready({
+            baseUrl: '../eddsdk/resources/'
+        }).then(initViewer)
+    </script>
+</body>
+
+</html>

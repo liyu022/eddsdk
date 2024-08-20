@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>eddsdk</title>
+    <script src='/eddsdk/edd.js'></script>
+    <link href='/eddsdk/edd.css' type='text/css' rel='stylesheet'>
+    <link href='../index.css' type='text/css' rel='stylesheet'>
+</head>
+
+<body>
+
+    <div id="viewer-container" class="viewer-container"></div>
+    <script>
+        let viewer = undefined
+
+        function initViewer () {
+            viewer = new edd.Viewer('viewer-container')
+            let baseLayer = edd.ImageryLayerFactory.createAmapImageryLayer({
+                style: 'img',
+                crs: "WGS84"
+            })
+            viewer.addBaseLayer(baseLayer)
+            let layer = new edd.VectorLayer('layer')
+            viewer.addLayer(layer)
+            let redCylinder = new edd.Cylinder('120.1,32,10000', 20000, 5000, 5000)
+            redCylinder.setStyle({
+                material: edd.Color.RED.withAlpha(0.5)
+            })
+            let greenCylinder = new edd.Cylinder('120.3, 32.0,10000', 20000, 0, 5000)
+            greenCylinder.setStyle({
+                material: edd.Color.GREEN.withAlpha(0.5)
+            })
+            let blueCylinder = new edd.Cylinder('120.5, 32.0,10000', 20000, 5000, 0)
+            blueCylinder.setStyle({
+                material: edd.Color.BLUE.withAlpha(0.5)
+            })
+            let yellowCylinder = new edd.Cylinder('120.7,32.0,10000', 20000, 0, 5000)
+            yellowCylinder.setStyle({
+                slices: 4,
+                material: edd.Color.YELLOW.withAlpha(0.5)
+            })
+            let orangeCylinder = new edd.Cylinder('120.9,32.0,2500,90,90', 5000, 5000, 0)
+            orangeCylinder.setStyle({
+                slices: 4,
+                material: edd.Color.ORANGE.withAlpha(0.5)
+            })
+            layer.addOverlay(redCylinder).addOverlay(greenCylinder).addOverlay(blueCylinder).addOverlay(yellowCylinder).addOverlay(orangeCylinder)
+            viewer.flyTo(layer)
+        }
+        edd.ready({
+            baseUrl: '../eddsdk/resources/'
+        }).then(initViewer)
+    </script>
+</body>
+
+</html>

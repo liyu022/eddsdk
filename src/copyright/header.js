@@ -1,0 +1,31 @@
+/*
+ * @Author: liyu 549277739@qq.com
+ * @Date: 2024-08-15 10:35:15
+ * @LastEditTime: 2024-08-15 11:29:49
+ * @Description:
+ * Copyright (c) 2024 by EEDSDK, All Rights Reserved.
+ */
+/**
+ * @license
+ * @name eddsdk
+ * @github {{__REPOSITORY__}}
+ * @author {{__AUTHOR__}}
+ * @organization liyu
+ * @version {{__VERSION__}}
+ *
+ * Copyright (c) 2019-present Yu Li
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Portions licensed separately.
+ */

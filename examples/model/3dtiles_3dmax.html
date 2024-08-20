@@ -1,0 +1,51 @@
+<!--
+ * @Author: liyu 549277739@qq.com
+ * @Date: 2024-08-11 13:59:32
+ * @LastEditTime: 2024-08-11 22:10:27
+ * @Description:
+ * Copyright (c) 2024 by EEDSDK, All Rights Reserved.
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>eddsdk</title>
+    <script src='/eddsdk/edd.js'></script>
+    <link href='/eddsdk/edd.css' type='text/css' rel='stylesheet'>
+    <link href='../index.css' type='text/css' rel='stylesheet'>
+</head>
+
+<body>
+
+    <div id="viewer-container" class="viewer-container"></div>
+    <script>
+        let viewer = undefined
+
+        function initViewer () {
+            viewer = new edd.Viewer('viewer-container')
+            let baseLayer = edd.ImageryLayerFactory.createImageryLayer(edd.ImageryType.AMAP, {
+                style: 'img',
+                crs: 'WGS84'
+            })
+            viewer.addBaseLayer(baseLayer)
+            let layer = new edd.TilesetLayer('layer')
+            viewer.addLayer(layer)
+            let tileset = new edd.Tileset(
+                'http://data.marsgis.cn/3dtiles/max-ytlhz/tileset.json'
+            )
+            layer.addOverlay(tileset)
+            viewer.flyTo(tileset)
+            layer.on(edd.MouseEventType.CLICK, (e) => {
+                console.log("-------", e)
+                // viewer.popup.showAt(e.position, `我是第${e.overlay.attr.index}点`)
+            })
+        }
+        edd.ready({
+            baseUrl: '../eddsdk/resources/'
+        }).then(initViewer)
+    </script>
+</body>
+
+</html>

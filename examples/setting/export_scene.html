@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>eddsdk</title>
+    <script src='/eddsdk/edd.js'></script>
+    <script src="../dat.gui.min.js"></script>
+    <link href='/eddsdk/edd.css' type='text/css' rel='stylesheet'>
+    <link href='../index.css' type='text/css' rel='stylesheet'>
+</head>
+
+<body>
+
+    <div id="viewer-container" class="viewer-container"></div>
+    <div class="btn-box">
+        <ul>
+            <li><button onclick="exportScene()">导出场景</button></li>
+        </ul>
+    </div>
+
+    <script>
+        let viewer = undefined
+
+        function initViewer () {
+            viewer = new edd.Viewer('viewer-container')
+            let baseLayer = edd.ImageryLayerFactory.createAmapImageryLayer({
+                style: 'img',
+                crs: "WGS84"
+            })
+            viewer.addBaseLayer(baseLayer)
+            let layer = new edd.TilesetLayer('layer')
+            viewer.addLayer(layer)
+            let tileset = new edd.Tileset(
+                '//resource.dvgis.cn/data/3dtiles/dayanta/tileset.json'
+            )
+            tileset.setHeight(-420)
+            layer.addOverlay(tileset)
+            viewer.flyTo(tileset)
+        }
+
+        function exportScene () {
+            viewer.exportScene()
+        }
+        edd.ready({
+            baseUrl: '../eddsdk/resources/'
+        }).then(initViewer)
+    </script>
+</body>
+
+</html>

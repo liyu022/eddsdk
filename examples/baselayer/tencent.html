@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>eddsdk</title>
+    <script src='/eddsdk/edd.js'></script>
+    <script src="../dat.gui.min.js"></script>
+    <link href='/eddsdk/edd.css' type='text/css' rel='stylesheet'>
+    <link href='../index.css' type='text/css' rel='stylesheet'>
+</head>
+
+<body>
+
+    <div id="viewer-container" class="viewer-container"></div>
+    <script>
+        let viewer = undefined
+        function initViewer () {
+            viewer = new edd.Viewer('viewer-container')
+            let baselayer_img = edd.ImageryLayerFactory.createImageryLayer(edd.ImageryType.TENCENT, {
+                style: 'img'
+            })
+            let baselayer_vec = edd.ImageryLayerFactory.createImageryLayer(edd.ImageryType.TENCENT, {
+                style: 2
+            })
+            viewer.addBaseLayer([baselayer_img, baselayer_vec], {
+                name: '影像',
+                iconUrl: '../assets/icon/img.png'
+            })
+
+            let baseLayer = edd.ImageryLayerFactory.createImageryLayer(edd.ImageryType.TENCENT)
+            viewer.addBaseLayer(baseLayer, {
+                name: '经典',
+                iconUrl: '../assets/icon/elec.png'
+            })
+
+            let baselayer_2 = edd.ImageryLayerFactory.createImageryLayer(edd.ImageryType.TENCENT, {
+                style: 4
+            })
+            viewer.addBaseLayer(baselayer_2, {
+                name: '墨渊',
+                iconUrl: '../assets/icon/dark.png'
+            })
+
+            let baselayer_3 = edd.ImageryLayerFactory.createImageryLayer(edd.ImageryType.TENCENT, {
+                style: 8
+            })
+            viewer.addBaseLayer(baselayer_3, {
+                name: '白浅',
+                iconUrl: '../assets/icon/elec.png'
+            })
+
+            viewer.zoomToPosition(
+                new edd.Position(105.565571, 31.984708, 15362816, 0, -90)
+            )
+        }
+        edd.ready({
+            baseUrl: '../eddsdk/resources/'
+        }).then(initViewer)
+    </script>
+
+</body>
+
+</html>

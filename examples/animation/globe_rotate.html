@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>eddsdk</title>
+    <script src='/eddsdk/edd.js'></script>
+    <link href='/eddsdk/edd.css' type='text/css' rel='stylesheet'>
+    <link href='../index.css' type='text/css' rel='stylesheet'>
+</head>
+
+<body>
+
+    <div id="viewer-container" class="viewer-container"></div>
+    <script>
+        let viewer = undefined
+
+        function initViewer () {
+            viewer = new edd.Viewer('viewer-container')
+            let baseLayer = edd.ImageryLayerFactory.createAmapImageryLayer({
+                style: 'img',
+                crs: 'WGS84'
+            })
+            viewer.addBaseLayer(baseLayer)
+            let weather = new edd.Weather(viewer)
+            weather.cloud.enable = true
+            weather.cloud.rotateAmount = 0.04
+            let globeRotate = new edd.GlobeRotate(viewer,
+                {
+                    duration: 3,
+                    callback: () => {
+                        viewer.flyToPosition(
+                            new edd.Position(120.38105869, 31.10115627, 1e5, 0, -90)
+                        )
+                    }
+                })
+            globeRotate.start()
+        }
+        edd.ready({
+            baseUrl: '../eddsdk/resources/'
+        }).then(initViewer)
+    </script>
+</body>
+
+</html>

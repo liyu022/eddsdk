@@ -1,0 +1,67 @@
+<!--
+ * @Author: liyu 549277739@qq.com
+ * @Date: 2024-08-11 13:59:32
+ * @LastEditTime: 2024-08-13 21:39:13
+ * @Description:
+ * Copyright (c) 2024 by EEDSDK, All Rights Reserved.
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>eddsdk</title>
+    <script src='/eddsdk/edd.js'></script>
+    <link href='/eddsdk/edd.css' type='text/css' rel='stylesheet'>
+    <link href='../index.css' type='text/css' rel='stylesheet'>
+</head>
+
+<body>
+
+    <div id="viewer-container" class="viewer-container"></div>
+    <script>
+        let viewer = undefined
+
+        function generatePosition (num) {
+            let list = []
+            for (let i = 0; i < num; i++) {
+                let lng = 88.882698 + Math.random() * 0.5
+                let lat = 43.202477 + Math.random() * 0.5
+                list.push(new edd.Position(lng, lat))
+                console.log(lng, lat)
+            }
+            return list
+        }
+
+        function initViewer () {
+            viewer = new edd.Viewer('viewer-container')
+            let baseLayer = edd.ImageryLayerFactory.createImageryLayer(edd.ImageryType.AMAP, {
+                style: 'img',
+                crs: 'WGS84'
+            })
+            viewer.addBaseLayer(baseLayer, {
+                brightness: 0.1
+            })
+            let layer = new edd.VectorLayer('layer')
+            viewer.addLayer(layer)
+            let layer1 = new edd.VectorLayer('layer1')
+            viewer.addLayer(layer1)
+            let positions = generatePosition(1)
+            // let positions1 = new edd.Position(88.96828627700636, 43.57707251981472);
+            let billboard = new edd.Billboard(positions[0], '../assets/icon/camera.png')
+            layer1.addOverlay(billboard)
+            positions.forEach(item => {
+                let model = new edd.Model(item, '../assets/data/ParcLeadMine.glb')
+                console.log(model)
+                layer.addOverlay(model)
+            })
+            viewer.flyTo(layer)
+        }
+        edd.ready({
+            baseUrl: '../eddsdk/resources/'
+        }).then(initViewer)
+    </script>
+</body>
+
+</html>

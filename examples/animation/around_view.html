@@ -1,0 +1,62 @@
+<!--
+ * @Author: liyu 549277739@qq.com
+ * @Date: 2024-08-15 10:41:12
+ * @LastEditTime: 2024-08-15 11:37:11
+ * @Description:
+ * Copyright (c) 2024 by EEDSDK, All Rights Reserved.
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>eddsdk</title>
+    <script src='/eddsdk/edd.js'></script>
+    <script src="../dat.gui.min.js"></script>
+    <link href='/eddsdk/edd.css' type='text/css' rel='stylesheet'>
+    <link href='../index.css' type='text/css' rel='stylesheet'>
+</head>
+
+<body>
+
+    <div id="viewer-container" class="viewer-container"></div>
+    <div class="btn-box">
+        <ul>
+            <li><button onclick="start()">开始</button></li>
+            <li><button onclick="stop()">结束</button></li>
+        </ul>
+    </div>
+    <script>
+        let viewer = undefined
+        let aroundView = undefined
+
+        function start () {
+            aroundView.start()
+        }
+
+        function stop () {
+            aroundView.stop()
+        }
+
+        function initViewer () {
+            viewer = new edd.Viewer('viewer-container')
+            let baseLayer = edd.ImageryLayerFactory.createImageryLayer(edd.ImageryType.AMAP, {
+                style: 'img',
+                crs: 'WGS84'
+            })
+            viewer.addBaseLayer(baseLayer)
+            viewer.flyToPosition(
+                new edd.Position(120.1223, 31.1232, 1e5, 0, -90),
+                () => {
+                    aroundView = new edd.AroundView(viewer)
+                }
+            )
+        }
+        edd.ready({
+            baseUrl: '../eddsdk/resources/'
+        }).then(initViewer)
+    </script>
+</body>
+
+</html>
